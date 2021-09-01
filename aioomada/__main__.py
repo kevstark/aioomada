@@ -1,4 +1,4 @@
-"""Use aiounifi as a CLI."""
+"""Use aioomada as a CLI."""
 
 import argparse
 import asyncio
@@ -7,7 +7,7 @@ import logging
 import aiohttp
 import async_timeout
 
-import aiounifi
+import aioomada
 
 LOGGER = logging.getLogger(__name__)
 
@@ -17,11 +17,11 @@ def signalling_callback(signal, data):
     LOGGER.info(f"{signal}, {data}")
 
 
-async def unifi_controller(
+async def omada_controller(
     host, username, password, port, site, session, sslcontext, callback
 ):
-    """Set up UniFi controller and verify credentials."""
-    controller = aiounifi.Controller(
+    """Set up Omada controller and verify credentials."""
+    controller = aioomada.Controller(
         host,
         username=username,
         password=password,
@@ -38,26 +38,26 @@ async def unifi_controller(
             await controller.login()
         return controller
 
-    except aiounifi.LoginRequired:
-        LOGGER.warning(f"Connected to UniFi at {host} but couldn't log in")
+    except aioomada.LoginRequired:
+        LOGGER.warning(f"Connected to Omada at {host} but couldn't log in")
 
-    except aiounifi.Unauthorized:
-        LOGGER.warning(f"Connected to UniFi at {host} but not registered")
+    except aioomada.Unauthorized:
+        LOGGER.warning(f"Connected to Omada at {host} but not registered")
 
-    except (asyncio.TimeoutError, aiounifi.RequestError):
-        LOGGER.exception(f"Error connecting to the UniFi controller at {host}")
+    except (asyncio.TimeoutError, aioomada.RequestError):
+        LOGGER.exception(f"Error connecting to the Omada controller at {host}")
 
-    except aiounifi.AiounifiException:
-        LOGGER.exception("Unknown UniFi communication error occurred")
+    except aioomada.AioOmadaException:
+        LOGGER.exception("Unknown Omada communication error occurred")
 
 
 async def main(host, username, password, port, site, sslcontext=False):
     """CLI method for library."""
-    LOGGER.info("Starting aioUniFi")
+    LOGGER.info("Starting aioOmada")
 
     websession = aiohttp.ClientSession(cookie_jar=aiohttp.CookieJar(unsafe=True))
 
-    controller = await unifi_controller(
+    controller = await omada_controller(
         host=host,
         username=username,
         password=password,
@@ -69,7 +69,7 @@ async def main(host, username, password, port, site, sslcontext=False):
     )
 
     if not controller:
-        LOGGER.error("Couldn't connect to UniFi controller")
+        LOGGER.error("Couldn't connect to Omada controller")
         await websession.close()
         return
 
@@ -95,8 +95,8 @@ if __name__ == "__main__":
     parser.add_argument("host", type=str)
     parser.add_argument("username", type=str)
     parser.add_argument("password", type=str)
-    parser.add_argument("-p", "--port", type=int, default=8443)
-    parser.add_argument("-s", "--site", type=str, default="default")
+    parser.add_argument("-p", "--port", type=int, default=8043)
+    parser.add_argument("-s", "--site", type=str, default="Default")
     parser.add_argument("-D", "--debug", action="store_true")
     args = parser.parse_args()
 
