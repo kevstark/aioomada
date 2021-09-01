@@ -1,19 +1,19 @@
-"""Setup for aioUnifi"""
+"""Setup for aioOmada"""
 
 from setuptools import setup
 
 setup(
-    name="aiounifi",
-    packages=["aiounifi"],
-    version="26",
-    description="An asynchronous Python library for communicating with Unifi Controller API",
-    author="Robert Svensson",
-    author_email="Kane610@users.noreply.github.com",
+    name="aioomada",
+    packages=["aioomada"],
+    version="27",
+    description="An asynchronous Python library for communicating with TP-Link Omada Controller API",
+    author="Kevin Stark",
+    author_email="kevstar@users.noreply.github.com",
     license="MIT",
-    url="https://github.com/Kane610/aiounifi",
-    download_url="https://github.com/Kane610/aiounifi/archive/v26.tar.gz",
+    url="https://github.com/kevstark/aioomada",
+    download_url="https://github.com/kevstark/aioomada/archive/v27.tar.gz",
     install_requires=["aiohttp"],
     tests_require=["pytest-asyncio", "pytest-aiohttp", "pytest", "aioresponses"],
-    keywords=["unifi", "homeassistant"],
+    keywords=["tplink", "omada", "homeassistant"],
     classifiers=["Natural Language :: English", "Programming Language :: Python :: 3"],
 )
