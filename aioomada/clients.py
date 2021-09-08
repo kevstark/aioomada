@@ -4,10 +4,8 @@ from typing import Optional
 
 from .api import APIItem, APIItems
 
-URL = "/stat/sta"  # Active clients
-URL_ALL = "/rest/user"  # All known and configured clients
-
-URL_CLIENT_STATE_MANAGER = "/cmd/stamgr"
+URL = "/clients"  # Active clients
+URL_ALL = "/insight/clients"  # All known and configured clients
 
 
 class Clients(APIItems):
@@ -21,18 +19,15 @@ class Clients(APIItems):
 
     async def async_block(self, mac: str) -> None:
         """Block client from controller."""
-        data = {"mac": mac, "cmd": "block-sta"}
-        await self._request("post", URL_CLIENT_STATE_MANAGER, json=data)
+        await self._request("post", f"/cmd/clients/{mac}/block", json={})
 
     async def async_unblock(self, mac: str) -> None:
         """Unblock client from controller."""
-        data = {"mac": mac, "cmd": "unblock-sta"}
-        await self._request("post", URL_CLIENT_STATE_MANAGER, json=data)
+        await self._request("post", f"/cmd/clients/{mac}/unblock", json={})
 
     async def async_reconnect(self, mac: str) -> None:
         """Force a wireless client to reconnect to the network."""
-        data = {"mac": mac, "cmd": "kick-sta"}
-        await self._request("post", URL_CLIENT_STATE_MANAGER, json=data)
+        await self._request("post", f"/cmd/clients/{mac}/reconnect", json={})
 
 
 class ClientsAll(APIItems):
@@ -47,6 +42,7 @@ class ClientsAll(APIItems):
 
 class Client(APIItem):
     """Represents a client network device."""
+    # TODO: Verify keys
 
     @property
     def blocked(self) -> bool:

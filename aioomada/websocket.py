@@ -1,4 +1,4 @@
-"""Python library to connect UniFi and Home Assistant to work together."""
+"""Python library to connect Omada and Home Assistant to work together."""
 
 import asyncio
 import json
@@ -30,17 +30,17 @@ class WSClient:
         ssl_context: Optional[SSLContext],
         site: str,
         callback: Callable[[str], None],
-        is_unifi_os: bool = False,
+        # is_unifi_os: bool = False,
     ):
         """Create resources for websocket communication."""
         self.session = session
         self.ssl_context = ssl_context
         self.session_handler_callback = callback
 
-        if is_unifi_os:
-            self.url = f"wss://{host}:{port}/proxy/network/wss/s/{site}/events"
-        else:
-            self.url = f"wss://{host}:{port}/wss/s/{site}/events"
+        # if is_unifi_os:
+        #     self.url = f"wss://{host}:{port}/proxy/network/wss/s/{site}/events"
+        # else:
+        #     self.url = f"wss://{host}:{port}/wss/s/{site}/events"
 
         self._loop = asyncio.get_running_loop()
 

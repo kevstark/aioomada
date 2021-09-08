@@ -1,4 +1,4 @@
-"""Fixtures for different items from UniFi controller."""
+"""Fixtures for different items from Omada controller."""
 
 ACCESS_POINT_AC_PRO = {
     "_id": "5a4c022",

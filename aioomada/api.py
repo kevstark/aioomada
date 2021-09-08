@@ -4,7 +4,7 @@ import logging
 from pprint import pformat
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union, ValuesView
 
-from aiounifi.events import event as unifi_event
+from aioomada.events import event as unifi_event
 
 LOGGER = logging.getLogger(__name__)
 

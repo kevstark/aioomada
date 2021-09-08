@@ -1,4 +1,4 @@
-"""UniFi devices are network infrastructure.
+"""Omada devices are network infrastructure.
 
 Access points, Gateways, Switches.
 """

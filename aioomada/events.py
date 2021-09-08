@@ -118,86 +118,86 @@ class event:
         """Message 'User[00:00:00:00:00:01] disconnected from "Access point" (1h 27m connected, 58.97M bytes, last AP[00:11:22:33:44:55])'."""
         return self.raw["msg"]
 
-    @property
-    def time(self) -> int:
-        """Time of event 1583076908000."""
-        return self.raw["time"]
-
-    @property
-    def mac(self) -> str:
-        """MAC of client or device."""
-        if self.client:
-            return self.client
-        if self.device:
-            return self.device
-        return ""
-
-    @property
-    def ap(self) -> str:
-        """Access point connected to."""
-        return self.raw.get("ap", "")
-
-    @property
-    def bytes(self) -> int:
-        """Bytes of data consumed."""
-        return self.raw.get("bytes", 0)
-
-    @property
-    def channel(self) -> int:
-        """Wi-Fi channel."""
-        return self.raw.get("channel", 0)
-
-    @property
-    def client(self) -> str:
-        """MAC address of client."""
-        return (
-            self.raw.get("user")
-            or self.raw.get("client")
-            or self.raw.get("guest")
-            or ""
-        )
-
-    @property
-    def device(self) -> str:
-        """MAC address of device."""
-        return self.raw.get("ap") or self.raw.get("gw") or self.raw.get("sw") or ""
-
-    @property
-    def duration(self) -> int:
-        """Duration."""
-        return self.raw.get("duration", 0)
-
-    @property
-    def hostname(self) -> str:
-        """Nice name."""
-        return self.raw.get("hostname", "")
-
-    @property
-    def radio(self) -> str:
-        """Radio."""
-        return self.raw.get("radio", "")
-
-    @property
-    def subsystem(self) -> str:
-        """Subsystem like 'lan' or 'wlan'."""
-        return self.raw.get("subsystem", "")
-
-    @property
-    def site_id(self) -> str:
-        """Site ID."""
-        return self.raw.get("site_id", "")
-
-    @property
-    def ssid(self) -> str:
-        """SSID."""
-        return self.raw.get("ssid", "")
-
-    @property
-    def version_from(self) -> str:
-        """Version from."""
-        return self.raw.get("version_from", "")
-
-    @property
-    def version_to(self) -> str:
-        """Version to."""
-        return self.raw.get("version_to", "")
+    # @property
+    # def time(self) -> int:
+    #     """Time of event 1583076908000."""
+    #     return self.raw["time"]
+# 
+    # @property
+    # def mac(self) -> str:
+    #     """MAC of client or device."""
+    #     if self.client:
+    #         return self.client
+    #     if self.device:
+    #         return self.device
+    #     return ""
+# 
+    # @property
+    # def ap(self) -> str:
+    #     """Access point connected to."""
+    #     return self.raw.get("ap", "")
+# 
+    # @property
+    # def bytes(self) -> int:
+    #     """Bytes of data consumed."""
+    #     return self.raw.get("bytes", 0)
+# 
+    # @property
+    # def channel(self) -> int:
+    #     """Wi-Fi channel."""
+    #     return self.raw.get("channel", 0)
+# 
+    # @property
+    # def client(self) -> str:
+    #     """MAC address of client."""
+    #     return (
+    #         self.raw.get("user")
+    #         or self.raw.get("client")
+    #         or self.raw.get("guest")
+    #         or ""
+    #     )
+# 
+    # @property
+    # def device(self) -> str:
+    #     """MAC address of device."""
+    #     return self.raw.get("ap") or self.raw.get("gw") or self.raw.get("sw") or ""
+# 
+    # @property
+    # def duration(self) -> int:
+    #     """Duration."""
+    #     return self.raw.get("duration", 0)
+# 
+    # @property
+    # def hostname(self) -> str:
+    #     """Nice name."""
+    #     return self.raw.get("hostname", "")
+# 
+    # @property
+    # def radio(self) -> str:
+    #     """Radio."""
+    #     return self.raw.get("radio", "")
+# 
+    # @property
+    # def subsystem(self) -> str:
+    #     """Subsystem like 'lan' or 'wlan'."""
+    #     return self.raw.get("subsystem", "")
+# 
+    # @property
+    # def site_id(self) -> str:
+    #     """Site ID."""
+    #     return self.raw.get("site_id", "")
+# 
+    # @property
+    # def ssid(self) -> str:
+    #     """SSID."""
+    #     return self.raw.get("ssid", "")
+# 
+    # @property
+    # def version_from(self) -> str:
+    #     """Version from."""
+    #     return self.raw.get("version_from", "")
+# 
+    # @property
+    # def version_to(self) -> str:
+    #     """Version to."""
+    #     return self.raw.get("version_to", "")

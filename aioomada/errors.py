@@ -1,30 +1,30 @@
-"""Aiounifi errors."""
+"""AioOmada errors."""
 
 
-class AiounifiException(Exception):
-    """Base error for aiounifi."""
+class AioOmadaException(Exception):
+    """Base error for aioomada."""
 
 
-class RequestError(AiounifiException):
+class RequestError(AioOmadaException):
     """Unable to fulfill request.
 
     Raised when host or API cannot be reached.
     """
 
 
-class ResponseError(AiounifiException):
+class ResponseError(AioOmadaException):
     """Invalid response."""
 
 
-class Unauthorized(AiounifiException):
+class Unauthorized(AioOmadaException):
     """Username is not authorized."""
 
 
-class LoginRequired(AiounifiException):
+class LoginRequired(AioOmadaException):
     """User is logged out."""
 
 
-class NoPermission(AiounifiException):
+class NoPermission(AioOmadaException):
     """Users permissions are read only."""
 
 
@@ -39,7 +39,7 @@ class BadGateway(RequestError):
     """Invalid response from the upstream server."""
 
 
-class TwoFaTokenRequired(AiounifiException):
+class TwoFaTokenRequired(AioOmadaException):
     """2 factor authentication token required."""
 
 
@@ -54,5 +54,5 @@ ERRORS = {
 def raise_error(error) -> None:
     """Raise error."""
     type = error
-    cls = ERRORS.get(type, AiounifiException)
+    cls = ERRORS.get(type, AioOmadaException)
     raise cls("{}".format(type))

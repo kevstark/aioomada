@@ -6,7 +6,7 @@ import aiohttp
 from aioresponses import aioresponses
 import pytest
 
-from aiounifi.controller import Controller
+from aioomada.controller import Controller
 
 
 @pytest.fixture
@@ -16,8 +16,8 @@ def mock_aioresponse():
 
 
 @pytest.fixture
-async def unifi_controller() -> Controller:
-    """Returns the UniFi controller.
+async def omada_controller() -> Controller:
+    """Returns the Omada controller.
 
     Clean up sessions automatically at the end of each test.
     """

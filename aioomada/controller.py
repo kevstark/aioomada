@@ -1,4 +1,4 @@
-"""Python library to interact with UniFi controller."""
+"""Python library to interact with Omada controller."""
 
 import logging
 from pprint import pformat
@@ -7,12 +7,12 @@ from aiohttp import client_exceptions
 
 from .clients import URL as client_url, URL_ALL as all_client_url, Clients, ClientsAll
 from .devices import URL as device_url, Devices
-from .dpi import (
-    APP_URL as dpi_app_url,
-    GROUP_URL as dpi_group_url,
-    DPIRestrictionApps,
-    DPIRestrictionGroups,
-)
+# from .dpi import (
+#     APP_URL as dpi_app_url,
+#     GROUP_URL as dpi_group_url,
+#     DPIRestrictionApps,
+#     DPIRestrictionGroups,
+# )
 from .errors import (
     BadGateway,
     LoginRequired,
@@ -42,14 +42,14 @@ DATA_CLIENT = "client"
 DATA_CLIENT_REMOVED = "client_removed"
 DATA_DEVICE = "device"
 DATA_EVENT = "event"
-DATA_DPI_APP = "dpi_app"
-DATA_DPI_APP_REMOVED = "dpi_app_removed"
-DATA_DPI_GROUP = "dpi_group"
-DATA_DPI_GROUP_REMOVED = "dpi_group_removed"
+# DATA_DPI_APP = "dpi_app"
+# DATA_DPI_APP_REMOVED = "dpi_app_removed"
+# DATA_DPI_GROUP = "dpi_group"
+# DATA_DPI_GROUP_REMOVED = "dpi_group_removed"
 
 
 class Controller:
-    """Control a UniFi controller."""
+    """Control an TP-Link Omada controller."""
 
     def __init__(
         self,
@@ -58,8 +58,8 @@ class Controller:
         *,
         username,
         password,
-        port=8443,
-        site="default",
+        port=8043,
+        site="Default",
         sslcontext=None,
         callback=None,
     ):
@@ -75,11 +75,10 @@ class Controller:
         self.can_retry_login = False
 
         self.url = f"https://{self.host}:{self.port}"
-        self.is_unifi_os = False
         self.headers = None
 
         self.websocket = None
-
+        self.is_omada = False
         self.clients = None
         self.clients_all = None
         self.devices = None
@@ -87,19 +86,16 @@ class Controller:
         self.dpi_groups = None
         self.wlans = None
 
-    async def check_unifi_os(self) -> None:
+    async def check_controller(self) -> None:
         """Check if controller is running UniFi OS."""
         response = await self._request("get", url=self.url, allow_redirects=False)
         if response.status == 200:
-            self.is_unifi_os = True
-            self.headers = {"x-csrf-token": response.headers.get("x-csrf-token")}
+            self.is_omada = True
+            self.headers = {"TPEAP_SESSIONID": response.headers.get("TPEAP_SESSIONID")}
 
     async def login(self) -> None:
         """Log in to controller."""
-        if self.is_unifi_os:
-            url = f"{self.url}/api/auth/login"
-        else:
-            url = f"{self.url}/api/login"
+        url = f"{self.url}/login"
 
         auth = {
             "username": self.username,
@@ -113,10 +109,7 @@ class Controller:
 
     async def sites(self) -> dict:
         """Retrieve what sites are provided by controller."""
-        if self.is_unifi_os:
-            url = f"{self.url}/proxy/network/api/self/sites"
-        else:
-            url = f"{self.url}/api/self/sites"
+        url = f"{self.url}/api/self/sites"
 
         sites = await self.request("get", url=url)
         LOGGER.debug(pformat(sites))
@@ -277,11 +270,7 @@ class Controller:
     ):
         """Make a request to the API."""
         if not url:
-            if self.is_unifi_os:
-                url = f"{self.url}/proxy/network/api/s/{self.site}"
-            else:
-                url = f"{self.url}/api/s/{self.site}"
-
+            url = f"{self.url}/api/s/{self.site}"
             url += f"{path}"
 
         LOGGER.debug("%s", url)
